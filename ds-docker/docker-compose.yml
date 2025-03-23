@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  elasticsearch:
+    image: bitnami/elasticsearch:7.15.1
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ELASTIC_PASSWORD=1
+    ports:
+      - "9200:9200"
+  db:
+    image: postgres:16
+    container_name: ds_task_db
+    environment:
+      POSTGRES_USER: u
+      POSTGRES_PASSWORD: 1
+      POSTGRES_DB: ds_task_db
+    ports:
+      - "5440:5432"
+    volumes:
+      - ds_task_db_data:/var/lib/postgresql/data
+      - ./init/init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: ["postgres", "-c", "log_statement=all", "-c", "log_destination=stderr"]
+
+volumes:
+  ds_task_db_data:

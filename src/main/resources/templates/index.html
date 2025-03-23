@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>CountryByPhoneSearch</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .correct_country {
+            color: azure;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .failed_country {
+            color: coral;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body class="bg-dark text-light">
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Поиск страны</h1>
+    <h2 class="mb-4 text-center">Country search</h2>
+    <form th:action="@{/search}" method="get" class="form-inline text-center">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control bg-light" name="phone"
+                   placeholder="Введите номер телефона / Enter phone number"
+                   aria-label="Search" th:value="${phone}">
+            <button class="btn btn-primary" type="submit">Искать / Search</button>
+        </div>
+    </form>
+</div>
+
+<div th:if="${country != null}">
+    <div th:if="${country.code > -1}">
+        <h3 class="correct_country" th:text="'Страна: ' + ${country.countryRu}"></h3>
+        <h4 class="correct_country" th:text="'Country: ' + ${country.countryEn}"></h4>
+    </div>
+
+    <div th:if="${country.code < 0}">
+        <h3 class="failed_country" th:text="${country.countryRu}"></h3>
+        <h4 class="failed_country" th:text="${country.countryEn}"></h4>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
